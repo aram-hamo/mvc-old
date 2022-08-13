@@ -1,0 +1,20 @@
+#!/bin/sh
+
+which doas 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=doas
+which sudo 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=sudo
+
+release(){
+  $asRoot docker build -t mvc .
+}
+dev(){
+  $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc
+}
+
+case $1 in
+  "release")
+    release ;;
+  "dev")
+    dev ;;
+  *)
+    printf "Usage:\n\nrelease     build a release image\ndev         launch a local dev server\n";;
+esac
