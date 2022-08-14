@@ -3,18 +3,23 @@
 which doas 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=doas
 which sudo 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=sudo
 
-release(){
+buildRelease(){
   $asRoot docker build -t mvc .
 }
-dev(){
+buildDev(){
+  $asRoot docker build -t mvc:dev -f DockerfileDev .
+}
+devServer(){
   $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc
 }
 
 case $1 in
-  "release")
-    release ;;
-  "dev")
-    dev ;;
+  "build-release")
+    buildRelease ;;
+  "build-dev")
+    buildDev ;;
+  "dev-server")
+    devServer ;;
   *)
-    printf "Usage:\n\nrelease     build a release image\ndev         launch a local dev server\n";;
+    printf "Usage:\n\nbuild-release      build a release image\nbuild-dev          build a dev image\ndev-server         launch a local dev server\n";;
 esac
