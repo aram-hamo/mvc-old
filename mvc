@@ -6,6 +6,9 @@ which sudo 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=sudo
 buildRelease(){
   $asRoot docker build -t mvc .
 }
+release(){
+  $asRoot docker run -p 443:443 -itd mvc
+}
 buildDev(){
   $asRoot docker build -t mvc:dev -f DockerfileDev .
 }
@@ -16,6 +19,8 @@ devServer(){
 case $1 in
   "build-release")
     buildRelease ;;
+  "release")
+    release ;;
   "build-dev")
     buildDev ;;
   "dev-server")
