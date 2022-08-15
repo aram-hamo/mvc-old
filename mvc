@@ -13,7 +13,7 @@ buildDev(){
   $asRoot docker build -t mvc:dev -f DockerfileDev .
 }
 devServer(){
-  $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc
+  $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc:dev
 }
 
 case $1 in
