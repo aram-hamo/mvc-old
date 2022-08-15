@@ -3,6 +3,10 @@
 include(__DIR__.'/config.php');
 include(__DIR__.'/includes/autoload.php');
 
+if($forcessl){
+  $config = new config();
+  $config->forcessl();
+}
 if(!isset($_GET["url"])){
     include(__DIR__.'/views/'.$views['/'].'.php');
 
