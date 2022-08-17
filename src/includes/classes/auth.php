@@ -28,11 +28,12 @@ class auth extends db{
   }
   return $verify;
   }
-  public function loginCheck(){
-
-  $stmt = $this->conn->prepare('select * from users where tokan=:tokan');
-  $stmt->bindValue(':tokan',$_COOKIE['tokan']);
-  $stmt->execute();
-  return $stmt->fetchAll();
+  public function tokanCheck(){
+    if(isset($_COOKIE['tokan'])){
+      $stmt = $this->conn->prepare('select * from users where tokan=:tokan');
+      $stmt->bindValue(':tokan',$_COOKIE['tokan']);
+      $stmt->execute();
+      return $stmt->fetchAll();
+    }
   }
 }
