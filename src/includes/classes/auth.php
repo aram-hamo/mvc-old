@@ -12,7 +12,7 @@ class auth extends db{
 	$createUser->bindValue(':password',$hashedPassword);
   $createUser->bindValue(':tokan',$tokan);
 	if($createUser->execute()){
-    setcookie("tokan",$tokan);
+    setcookie("tokan",$tokan,null,null,null,true,true);
   }
   }
 
@@ -24,7 +24,7 @@ class auth extends db{
   $userData =  $stmt->fetchAll();
   $verify = password_verify($password,$userData[0]['password']);
   if($verify){
-    setcookie("tokan",$userData[0]['tokan']);
+    setcookie("tokan",$userData[0]['tokan'],null,null,null,true,true);
   }
   return $verify;
   }
