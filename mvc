@@ -11,6 +11,7 @@ release(){
 }
 buildDev(){
   $asRoot docker build -t mvc:dev -f DockerfileDev .
+  cat src/install/tables.sql | sqlite3 src/db.sqlite
 }
 devServer(){
   $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc:dev
