@@ -3,29 +3,26 @@
 which doas 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=doas
 which sudo 1> /dev/null 2> /dev/null 3> /dev/null && asRoot=sudo
 
-buildRelease(){
+build(){
+  sed -i 's/debug\=true/debug\=false/' src/config.php
   $asRoot docker build -t mvc .
 }
 release(){
-  $asRoot docker run -p 443:443 -itd mvc
-}
-buildDev(){
-  $asRoot docker build -t mvc:dev -f DockerfileDev .
-  cat src/install/tables.sql | sqlite3 src/db.sqlite
+  $asRoot docker run -p 443:443 -p 80:80 -itd mvc
 }
 devServer(){
-  $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc:dev
+  sed -i 's/debug\=false/debug\=true/' src/config.php
+  cat src/install/tables.sql | sqlite3 src/db.sqlite
+  $asRoot docker run --rm -it --volume $PWD/src/:/var/www/html/ mvc
 }
 
 case $1 in
-  "build-release")
-    buildRelease ;;
+  "build")
+    build;;
   "release")
     release ;;
-  "build-dev")
-    buildDev ;;
   "dev-server")
     devServer ;;
   *)
-    printf "Usage:\n\nbuild-release      build a release image\nbuild-dev          build a dev image\ndev-server         launch a local dev server\n";;
+    printf "Usage:\n\nbuild          build a docker image\ndev-server     launch a local dev server\n"
 esac
