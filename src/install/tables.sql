@@ -1,1 +1,10 @@
-create table if not exists users (id integer primary key autoincrement,username text unique, password text , email text,verified boolean,tokan text unique)
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  firstName TEXT ,
+  lastName TEXT ,
+  username TEXT UNIQUE,
+  password TEXT,
+  email TEXT,
+  verified BOOLEAN,
+  tokan TEXT UNIQUE
+);

@@ -2,11 +2,13 @@
 
 class auth extends db{
 
-  public function register($username,$password,$email){
+  public function register($firstName,$lastName,$username,$password,$email){
 
   $tokan = bin2hex(openssl_random_pseudo_bytes(16));
   $hashedPassword = password_hash($password,PASSWORD_BCRYPT);
-	$createUser = $this->conn->prepare("insert into users (username,password,email,verified,tokan) values (:username ,:password,:email,false,:tokan)");
+	$createUser = $this->conn->prepare("insert into users (firstName,lastName,username,password,email,verified,tokan) values (:firstName,:lastName,:username ,:password,:email,false,:tokan)");
+	$createUser->bindValue(':firstName',$firstName);
+	$createUser->bindValue(':lastName',$lastName);
 	$createUser->bindValue(':username',$username);
 	$createUser->bindValue(':email',$email);
 	$createUser->bindValue(':password',$hashedPassword);
